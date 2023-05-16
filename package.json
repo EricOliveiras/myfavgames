@@ -1,0 +1,31 @@
+{
+  "name": "myfavgames",
+  "version": "1.0.0",
+  "description": "A social network for gamers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install",
+    "lint": "npx eslint . --cache",
+    "pre-commit": "lint-staged"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EricOliveiras/myfavgames.git"
+  },
+  "author": "Eric Oliveira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EricOliveiras/myfavgames/issues"
+  },
+  "homepage": "https://github.com/EricOliveiras/myfavgames#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "@typescript-eslint/parser": "^5.54.0",
+    "eslint": "^8.35.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2"
+  }
+}
