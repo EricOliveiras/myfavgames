@@ -16,8 +16,8 @@ describe('Create user', () => {
   });
 
   afterAll(async () => {
-    await prisma.$disconnect();
     await prisma.user.deleteMany();
+    await prisma.$disconnect();
   });
 
   it('should create a user', async () => {
