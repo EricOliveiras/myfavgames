@@ -16,6 +16,10 @@ export class UpdateUser {
       throw new Error('Username already registered.');
     }
 
+    if(email !== getUserById.email) {
+      throw new Error('Unable to update email.');
+    }
+
     return await this.userRepository.update(id, {
       username,
       email,
