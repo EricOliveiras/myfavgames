@@ -80,15 +80,24 @@ describe('Update user', () => {
       .toThrowError('Username already registered.');
   });
 
-  // it('should throw a error if email already registered', async () => {
-  //   const userData: UserRequest = {
-  //     username: 'Joe Doe',
-  //     email: 'email@email.com',
-  //     password: 'secret'
-  //   };
+  it('should return an error when trying to update the email', async () => {
+    const newUser: UserRequest = {
+      username: 'auser',
+      email: 'auser@email.com',
+      password: 'secret'
+    };
 
-  //   await expect(createUserService.execute(userData))
-  //     .rejects
-  //     .toThrowError('Email already registered.');
-  // });
+    const newUserUpdate = await createUserService.execute(newUser);
+
+    const userUpdateData: UserRequest = {
+      username: 'auser',
+      email: 'auser2@email.com',
+      password: 'secret',
+      imageUrl: '/images/image.png'
+    };
+
+    await expect(updateUserService.execute(newUserUpdate.id, userUpdateData))
+      .rejects
+      .toThrowError('Unable to update email.');
+  });
 });
