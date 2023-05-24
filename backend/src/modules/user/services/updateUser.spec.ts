@@ -1,8 +1,9 @@
 import { randomUUID } from 'crypto';
 
+import { UserRequest, UserResponse } from '../interfaces/User';
 import { UserRepository } from '../repository/UserRepository';
+import { createFakerUser } from '../../../utils/fakerUser';
 import { prisma } from '../../../database/prisma';
-import { UserRequest } from '../interfaces/User';
 import { CreateUser } from './CreateUser';
 import { UpdateUser } from './UpdateUser';
 
@@ -10,12 +11,19 @@ describe('Update user', () => {
   let userRepository: UserRepository;
   let createUserService: CreateUser;
   let updateUserService: UpdateUser;
+  let user01: UserRequest;
+  let user02: UserRequest;
+  let createdUser01: UserResponse;
+  let createdUser02: UserResponse;
 
   beforeAll(async () => {
+    await prisma.user.deleteMany();
     userRepository = new UserRepository();
     createUserService = new CreateUser(userRepository);
     updateUserService = new UpdateUser(userRepository);
-    await prisma.user.deleteMany();
+
+    user01 = createFakerUser();
+    user02 = createFakerUser();
   });
 
   afterAll(async () => {
@@ -24,79 +32,50 @@ describe('Update user', () => {
   });
 
   it('should return a user when it is updated', async () => {
-    const userData: UserRequest = {
-      username: 'updateUser',
-      email: 'update@email.com',
-      password: 'secret'
-    };
+    createdUser01 = await createUserService.execute(user01);
 
-    const userUpdateData: UserRequest = {
-      username: 'updateUser',
-      email: 'update@email.com',
-      password: 'secret',
-      imageUrl: '/images/image.png'
-    };
+    user01.imageUrl = '/image/image.png';
 
-    const user = await createUserService.execute(userData);
+    const updateUser = await updateUserService.execute(createdUser01.id, user01);
 
-    const updateUser = await updateUserService.execute(user.id, userUpdateData);
-
-    expect(updateUser.updatedAt > user.updatedAt);
+    expect(updateUser.updatedAt > createdUser01.updatedAt);
+    expect(updateUser.imageUrl).toBe(user01.imageUrl);
   });
 
   it('should return an error if user not found', async () => {
     const id = randomUUID();
 
-    const userUpdateData: UserRequest = {
-      username: 'updateUser',
-      email: 'update@email.com',
-      password: 'secret',
-      imageUrl: '/images/image.png'
-    };
-
-    await expect(updateUserService.execute(id, userUpdateData))
+    await expect(updateUserService.execute(id, user01))
       .rejects
       .toThrowError('User not found.');
   });
 
   it('should throw a error if username already registered', async () => {
-    const newUser: UserRequest = {
-      username: 'newuser',
-      email: 'newuserupdate@email.com',
-      password: 'secret'
+    const user = await createUserService.execute({
+      username: 'teste01',
+      email: 'teste01@test.com',
+      password: '123456'
+    });
+
+    const newUserData: UserRequest = {
+      username: 'teste02',
+      email: 'teste02@test.com',
+      password: '123456'
     };
 
-    const newUserUpdate = await createUserService.execute(newUser);
+    await createUserService.execute(newUserData);
 
-    const userUpdateData: UserRequest = {
-      username: 'updateUser',
-      email: 'newuserupdate@email.com',
-      password: 'secret',
-      imageUrl: '/images/image.png'
-    };
-
-    await expect(updateUserService.execute(newUserUpdate.id, userUpdateData))
+    await expect(updateUserService.execute(user.id, newUserData))
       .rejects
       .toThrowError('Username already registered.');
   });
 
   it('should return an error when trying to update the email', async () => {
-    const newUser: UserRequest = {
-      username: 'auser',
-      email: 'auser@email.com',
-      password: 'secret'
-    };
+    createdUser02 = await createUserService.execute(user02);
 
-    const newUserUpdate = await createUserService.execute(newUser);
+    user02.email = 'outro@email.com';
 
-    const userUpdateData: UserRequest = {
-      username: 'auser',
-      email: 'auser2@email.com',
-      password: 'secret',
-      imageUrl: '/images/image.png'
-    };
-
-    await expect(updateUserService.execute(newUserUpdate.id, userUpdateData))
+    await expect(updateUserService.execute(createdUser02.id, user02))
       .rejects
       .toThrowError('Unable to update email.');
   });
