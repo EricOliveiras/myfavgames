@@ -1,10 +1,11 @@
+import { faker } from '@faker-js/faker';
+
 import { UserRepository } from '../repository/UserRepository';
+import { createFakerUser } from '../../../utils/fakerUser';
 import { prisma } from '../../../database/prisma';
-import { CreateUser } from './CreateUser';
 import { UserRequest } from '../interfaces/User';
 import { GetByUsername } from './GetByUsername';
-import { createFakerUser } from '../../../utils/fakerUser';
-import { faker } from '@faker-js/faker';
+import { CreateUser } from './CreateUser';
 
 describe('Get user by username', () => {
   let userRepository: UserRepository;
