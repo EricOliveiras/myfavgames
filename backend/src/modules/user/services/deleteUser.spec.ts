@@ -1,3 +1,5 @@
+import { randomUUID } from 'crypto';
+
 import { UserRepository } from '../repository/UserRepository';
 import { createFakerUser } from '../../../utils/fakerUser';
 import { prisma } from '../../../database/prisma';
@@ -5,7 +7,6 @@ import { UserRequest } from '../interfaces/User';
 import { CreateUser } from './CreateUser';
 import { DeleteUser } from './DeleteUser';
 import { GetUser } from './GetUser';
-import { randomUUID } from 'crypto';
 
 describe('Delete user', () => {
   let userRepository: UserRepository;
@@ -15,12 +16,12 @@ describe('Delete user', () => {
   let fakerUser: UserRequest;
 
   beforeAll(async () => {
+    await prisma.user.deleteMany();
     userRepository = new UserRepository();
     createUserService = new CreateUser(userRepository);
     deleteUserService = new DeleteUser(userRepository);
     getUserService = new GetUser(userRepository);
     fakerUser = createFakerUser();
-    await prisma.user.deleteMany();
   });
 
   afterAll(async () => {
