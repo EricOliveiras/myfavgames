@@ -1,5 +1,6 @@
-import { UserResponse } from '../interfaces/User';
 import { UserRepository } from '../repository/UserRepository';
+import { HttpException } from '../../../errors/HttpException';
+import { UserResponse } from '../interfaces/User';
 
 export class GetUser {
   constructor(private userRepository: UserRepository) {}
@@ -8,7 +9,7 @@ export class GetUser {
     const user = this.userRepository.getOne(id);
 
     if (!user) {
-      throw new Error('User not found.');
+      throw new HttpException(404, 'User not found.');
     }
 
     return user;
