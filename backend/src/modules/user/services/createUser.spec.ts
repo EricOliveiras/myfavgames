@@ -1,18 +1,18 @@
 import { compareSync } from 'bcrypt';
 
 import { UserRepository } from '../repository/UserRepository';
+import { prisma } from '../../../database/prisma';
 import { UserRequest } from '../interfaces/User';
 import { CreateUser } from './CreateUser';
-import { prisma } from '../../../database/prisma';
 
 describe('Create user', () => {
   let userRepository: UserRepository;
   let createUserService: CreateUser;
 
   beforeAll(async () => {
+    await prisma.user.deleteMany();
     userRepository = new UserRepository();
     createUserService = new CreateUser(userRepository);
-    await prisma.user.deleteMany();
   });
 
   afterAll(async () => {
