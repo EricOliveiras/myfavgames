@@ -51,12 +51,6 @@ describe('Update user', () => {
   });
 
   it('should throw a error if username already registered', async () => {
-    const user = await createUserService.execute({
-      username: 'teste01',
-      email: 'teste01@test.com',
-      password: '123456'
-    });
-
     const newUserData: UserRequest = {
       username: 'teste02',
       email: 'teste02@test.com',
@@ -65,7 +59,15 @@ describe('Update user', () => {
 
     await createUserService.execute(newUserData);
 
-    await expect(updateUserService.execute(user.id, newUserData))
+    const user = await createUserService.execute({
+      username: 'teste01',
+      email: 'teste01@test.com',
+      password: '123456'
+    });
+
+    const id = user.id;
+
+    await expect(updateUserService.execute(id, newUserData))
       .rejects
       .toThrowError('Username already registered.');
   });
