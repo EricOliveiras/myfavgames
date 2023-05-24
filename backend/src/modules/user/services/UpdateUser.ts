@@ -1,5 +1,6 @@
 import { UserRequest, UserResponse } from '../interfaces/User';
 import { UserRepository } from '../repository/UserRepository';
+import { HttpException } from '../../../errors/HttpException';
 
 export class UpdateUser {
   constructor(private userRepository: UserRepository) {}
@@ -9,15 +10,15 @@ export class UpdateUser {
     const getUserByUsername = await this.userRepository.getByUsername(username);
 
     if (!getUserById) {
-      throw new Error('User not found.');
+      throw new HttpException(404, 'User not found.');
     }
 
     if (getUserByUsername && getUserByUsername.id !== id) {
-      throw new Error('Username already registered.');
+      throw new HttpException(409, 'Username already registered.');
     }
 
     if(email !== getUserById.email) {
-      throw new Error('Unable to update email.');
+      throw new HttpException(403, 'Unable to update email.');
     }
 
     return await this.userRepository.update(id, {
