@@ -4,8 +4,8 @@ import { UserRepository } from '../repository/UserRepository';
 import { prisma } from '../../../database/prisma';
 import { UserRequest } from '../interfaces/User';
 import { CreateUser } from './CreateUser';
-import { GetUser } from './GetUser';
 import { compareSync } from 'bcrypt';
+import { GetUser } from './GetUser';
 
 describe('Get user', () => {
   let userRepository: UserRepository;
