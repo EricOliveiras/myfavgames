@@ -43,7 +43,7 @@ describe('Get user', () => {
     expect(isPasswordCorrect).toBe(true);
   });
 
-  it('should throw return null if user not found', async () => {
+  it('should return null if user not found', async () => {
     const id = randomUUID();
 
     await expect(getUserService.execute(id))
