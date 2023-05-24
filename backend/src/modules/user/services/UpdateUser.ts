@@ -13,7 +13,7 @@ export class UpdateUser {
       throw new HttpException(404, 'User not found.');
     }
 
-    if (getUserByUsername && getUserByUsername.id !== id) {
+    if (getUserByUsername?.id !== id) {
       throw new HttpException(409, 'Username already registered.');
     }
 
