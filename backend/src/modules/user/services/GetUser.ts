@@ -8,8 +8,8 @@ export class GetUser {
   public async execute(id: string): Promise<UserResponse | null> {
     const user = this.userRepository.getOne(id);
 
-    if (!user) {
-      throw new HttpException(404, 'User not found.');
+    if (user === null) {
+      throw new HttpException(400, 'User not found.');
     }
 
     return user;
