@@ -4,7 +4,7 @@ import { UserRequest, UserResponse } from '../interfaces/User';
 import { prisma } from '../../../database/prisma';
 import { app } from '../../../config/server';
 
-describe('User controller', () => {
+describe('Create user controller', () => {
   beforeAll(async () => {
     await prisma.user.deleteMany();
   });
