@@ -1,6 +1,7 @@
 import request from 'supertest';
-import { prisma } from '../../../database/prisma';
+
 import { UserRequest, UserResponse } from '../interfaces/User';
+import { prisma } from '../../../database/prisma';
 import { app } from '../../../config/server';
 
 describe('User controller', () => {
