@@ -37,7 +37,7 @@ describe('Update user controller', () => {
     };
 
     const response = await request(app)
-      .put(`users/update/${id}`)
+      .put(`/users/update/${id}`)
       .send(updateUser);
 
     expect(response.status).toBe(200);
