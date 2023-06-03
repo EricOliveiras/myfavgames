@@ -20,7 +20,7 @@ export const CreateUserController = {
 
     return response.status(201).json({
       message: 'User successfully registered',
-      data:createdUser
+      data: createdUser
     });
   }
 };
