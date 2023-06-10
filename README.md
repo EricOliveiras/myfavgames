@@ -5,10 +5,10 @@ O projeto tem como objetivo desenvolver uma rede social para que os usuários po
 
 ## Andamento do projeto
 
-Durante este projeto estou aprendendo sobre testes de aplicações, por isso estou usaando a metodoloia TDD.
+Durante este projeto estou aprendendo sobre testes de aplicações, por isso estou usando a metodologia TDD.
 
 - [x] Iniciando o projeto
-- [ ] Aplicando os testes
+- [x] Desenvolvendo os testes
 
 ## Utlizando o projeto
 Dependências globais
